@@ -1,4 +1,4 @@
-const { Home, DateTime } = require("./database/models");
+const { Home, HomeEvent, Booking } = require("./database/models.js");
 
 const express = require("express");
 const path = require("path");
@@ -25,61 +25,44 @@ app.get("/api/homes", function (req, res) {
   });
 });
 
-app.post("/api/book", function (req, res) {
-  Home.find({ _id: req.body.listingId }, (err, result) => {
+app.get("/api/home/:homeId/events", function (req, res) {
+  let { homeId } = req.params;
+  HomeEvent.find({ homeId: homeId }, (err, data) => {
     if (err) {
       throw err;
     } else {
-      const params = [
-        result.original_title,
-        result.release_date,
-        result.vote_average,
-        false,
-      ];
-
-      const movie = new Movie({
-        title: result.original_title,
-        year: result.release_date,
-        rating: result.vote_average,
-        status: false,
-      });
-
-      movie.save((err, data) => {
-        if (err) {
-          throw err;
-        } else {
-          res.json(data);
-        }
-      });
+      res.json(data);
     }
   });
 });
 
-app.patch("/movie", function (req, res) {
-  if (req.body.status !== undefined) {
-    Movie.findById(req.body._id, (err, movie) => {
-      movie.status = req.body.status;
+app.post("/api/book", function (req, res) {
+  let { eventId, guests } = req.body;
 
-      movie.save((err) => {
+  HomeEvent.find({ _id: eventId }, (err, homeEvent) => {
+    if (err) {
+      throw err;
+    } else {
+      homeEvent.numberOfGuests -= guests;
+
+      homeEvent.save((err) => {
         if (err) {
           throw err;
         } else {
-          res.json(movie);
-        }
-      });
-    });
-  }
-  if (req.body.rating !== undefined) {
-    Movie.findById(req.body._id, (err, movie) => {
-      movie.rating = req.body.rating;
+          let booking = new Booking({
+            eventId: eventId,
+            numberOfGuests: guests,
+          });
 
-      movie.save((err) => {
-        if (err) {
-          throw err;
-        } else {
-          res.json(movie);
+          booking.save((err, data) => {
+            if (err) {
+              throw err;
+            } else {
+              res.json(data);
+            }
+          });
         }
       });
-    });
-  }
+    }
+  });
 });

@@ -1,34 +1,37 @@
 const mongoose = require("./index");
 
-const dateTimeSchema = mongoose.Schema({
-  date: Date,
-  // In minutes
-  duration: Number,
+const homeEventSchema = mongoose.Schema({
+  homeId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Home",
+  },
+  startDate: Date,
+  endDate: Date,
+  numberOfGuests: Number,
+  donationMin: Number,
 });
 
 const homeSchema = mongoose.Schema({
   title: String,
   typeOfFood: String,
   address: String,
-  numberOfGuests: Number,
-  donationMin: Number,
-  availableDateTimes: [dateTimeSchema],
   photos: [String],
 });
 
 const bookingSchema = mongoose.Schema({
-  numberOfGuests: Number,
-  listingId: {
+  eventId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Home",
+    ref: "HomeEvent",
   },
-  timeslot: dateTimeSchema,
+  numberOfGuests: Number,
 });
 
 const Home = mongoose.model("Home", homeSchema);
-const DateTime = mongoose.model("DateTime", dateTimeSchema);
+const HomeEvent = mongoose.model("HomeEvent", homeEventSchema);
+const Booking = mongoose.model("Booking", bookingSchema);
 
 module.exports = {
   Home,
-  DateTime,
+  HomeEvent,
+  Booking,
 };
