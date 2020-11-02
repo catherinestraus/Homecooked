@@ -1,73 +1,73 @@
-const { Listing, DateTime } = require("./models");
+const { Home, DateTime } = require("./models");
 
-console.log("Listings", Listing.find());
+Home.find({}).then((homes) => {
+  console.log("homes", homes);
+});
 
-// const Review = require("./index");
-// const faker = require("faker");
-// const moment = require("moment");
+DateTime.find({}).then((dateTimes) => {
+  console.log("Date times", dateTimes);
+});
 
-// const createData = function (num) {
-//   // Generate Dates
-//   const monthYear = [];
-//   let now = moment();
-//   for (let i = 0; i < num; i++) {
-//     now = now.subtract(3, "days");
-//     const dateStr = now.format("MMMM YYYY");
-//     const dateNum = now.unix();
+const faker = require("faker");
 
-//     monthYear.push({
-//       dateNum,
-//       dateStr,
-//     });
-//   }
+const createData = function () {
+  // Generate Dates
+  const dates = [];
 
-//   // Generate Sex
-//   const sexes = ["female", "male"];
+  const newDate = new Date()
 
-//   // Generate Reviews
-//   const reviews = [
-//     faker.lorem.words(),
-//     faker.lorem.sentence(),
-//     faker.lorem.sentences(),
-//     faker.lorem.paragraph(),
-//     faker.lorem.paragraphs(),
-//   ];
+  const date = {
+    date: newDate,
+    duration: Number,
+  });
 
-//   for (let i = 0; i < num; i++) {
-//     let sex = sexes[Math.floor(Math.random() * 2)];
-//     const username = faker.name.firstName(sex);
-//     const image = `https://mvp-food.s3-us-west-1.amazonaws.com/Chinese-1-1.jpg`;
-//     const data = {
-//       username: username,
-//       image: image,
-//       dateNum: monthYear[i].dateNum,
-//       dateStr: monthYear[i].dateStr,
-//       review: reviews[Math.floor(Math.random() * 5)],
-//       roomId: Math.floor(Math.random() * 5) + 1,
-//       cleanlinessRating: Math.floor(Math.random() * 2) + 4,
-//       communicationRating: Math.floor(Math.random() * 2) + 4,
-//       checkInRating: Math.floor(Math.random() * 2) + 4,
-//       accuracyRating: Math.floor(Math.random() * 2) + 4,
-//       locationRating: Math.floor(Math.random() * 2) + 4,
-//       valueRating: Math.floor(Math.random() * 2) + 4,
-//     };
-//     data.totalRating =
-//       (data.cleanlinessRating +
-//         data.communicationRating +
-//         data.checkInRating +
-//         data.accuracyRating +
-//         data.locationRating +
-//         data.valueRating) /
-//       6;
-//     const review = new Review(data);
-//     review.save((err, result) => {
-//       if (err) {
-//         throw err;
-//       } else {
-//         console.log(result);
-//       }
-//     });
-//   }
-// };
+  const date = new DateTime(date);
+  dates.push
 
-// createData(50);
+
+  ////////////
+  // Generate types of food
+  const foods = [
+    "Chinese",
+    "French",
+    "Indian",
+    "Italian",
+    "Japanese",
+    "Korean",
+    "Middle-Eastern",
+    "Mexican",
+    "Southern",
+    "Thai",
+  ];
+
+  for (let i = 0; i < foods.length; i++) {
+    const titles = [
+      `Authentic ${foods[i]} food you must try!`,
+      `Join us for some homecooked ${foods[i]} food :)`,
+      `${foods[i]} food made from scratch!`,
+      `Guaranteed to be better than any ${foods[i]} restaurant in SF ;)`
+    ]
+
+    for (let j = 1; j < 3; j++) {
+      const info = {
+        title: titles[Math.floor(Math.random()* 4)],
+        typeOfFood: `${foods[i]}`,
+        address: `${faker.street_address()}, San Francisco, CA ${Math.floor(Math.random()*5) + 94115}`,
+        numberOfGuests: Math.floor(Math.random()* 6) + 1,
+        donationMin: Math.floor(Math.random()* 11) + 15,
+        availableDateTimes: [dateTimeSchema],
+        photos: [`https://mvp-food.s3-us-west-1.amazonaws.com/${foods[i]}-${j}-1.jpg`, `https://mvp-food.s3-us-west-1.amazonaws.com/${foods[i]}-${j}-2.jpg`, `https://mvp-food.s3-us-west-1.amazonaws.com/${foods[i]}-${j}-3.jpg`]
+      };
+
+      const home = new Home(info);
+      home.save((err, result) => {
+        if (err) {
+          throw err;
+        } else {
+          console.log(result);
+        }
+      });
+    }
+};
+
+createData();
