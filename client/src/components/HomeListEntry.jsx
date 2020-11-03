@@ -1,49 +1,36 @@
 import React from "react";
 import HomeEvent from "./HomeEvent.jsx";
 
-class HomeListEntry extends React.Component {
-  constructor(props) {
-    super(props);
+const HomeListEntry = (props) => {
+  let events = [];
 
-    this.state = {
-      events: [],
-    };
-  }
-
-  getEvents() {
-    $.ajax({
-      url: `/api/home/${this.props.home._id}/events`,
-      type: "GET",
-      dataType: "json",
-      success: (responseData) => {
-        this.setState({
-          events: responseData,
-        });
-      },
-    });
-  }
-
-  render() {
-    let events = [];
-    for (let i = 0; i < events.length; i++) {
-      events.push(<HomeEvent event={this.state.events[i]}></HomeEvent>);
+  for (let j = 0; j < props.home.events.length; j++) {
+    if (props.donationMin && props.numberOfGuests) {
+      if (
+        props.home.events[j].donationMin <= props.donationMin &&
+        props.numberOfGuests <= props.home.events[j].numberOfGuests
+      ) {
+        events.push(<HomeEvent event={props.home.events[j]}></HomeEvent>);
+      }
+    } else {
+      events.push(<HomeEvent event={props.home.events[j]}></HomeEvent>);
     }
-
-    let photos = [];
-    for (let i = 0; i < this.props.home.photos.length; i++) {
-      photos.push(<img src={this.props.home.photos[i]} />);
-    }
-
-    return (
-      <div>
-        <div>{this.props.home.title}</div>
-        <div>{this.props.home.typeOfFood}</div>
-        <div>{this.props.home.address}</div>
-        <div>{photos}</div>
-        <div>{events}</div>
-      </div>
-    );
   }
-}
+
+  let photos = [];
+  for (let i = 0; i < props.home.photos.length; i++) {
+    photos.push(<img src={props.home.photos[i]} />);
+  }
+
+  return (
+    <div>
+      <div>{props.home.title}</div>
+      <div>Type of food: {props.home.typeOfFood}</div>
+      <div>Address: {props.home.address}</div>
+      <div>{photos}</div>
+      <div>{events}</div>
+    </div>
+  );
+};
 
 export default HomeListEntry;

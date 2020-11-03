@@ -21,25 +21,41 @@ app.listen(port, () => {
 });
 
 app.get("/api/homes", function (req, res) {
-  Home.find((err, data) => {
+  Home.find((err, mhomes) => {
+    const homes = mhomes.map((home) => home.toObject());
     if (err) {
       throw err;
     } else {
-      res.json(data);
+      // res.json(data);
+      HomeEvent.find((err, mevents) => {
+        const events = mevents.map((event) => event.toObject());
+        if (err) {
+          throw err;
+        } else {
+          for (const home of homes) {
+            const eventsForHome = events.filter((event) => {
+              return event.homeId.toString() === home._id.toString();
+            });
+            home.events = eventsForHome;
+          }
+
+          res.json(homes);
+        }
+      });
     }
   });
 });
 
-app.get("/api/home/:homeId/events", function (req, res) {
-  let { homeId } = req.params;
-  HomeEvent.find({ homeId: homeId }, (err, data) => {
-    if (err) {
-      throw err;
-    } else {
-      res.json(data);
-    }
-  });
-});
+// app.get("/api/home/:homeId/events", function (req, res) {
+//   let { homeId } = req.params;
+//   HomeEvent.find({ homeId: homeId }, (err, data) => {
+//     if (err) {
+//       throw err;
+//     } else {
+//       res.json(data);
+//     }
+//   });
+// });
 
 app.post("/api/book", function (req, res) {
   let { eventId, guests } = req.body;

@@ -36,7 +36,6 @@ class App extends React.Component {
   }
 
   changeFilter(filters) {
-    console.log("filters", filters);
     this.setState({
       filter: filters,
     });
@@ -53,19 +52,26 @@ class App extends React.Component {
       filter: { typeOfFood, donationMin, numberOfGuests },
       homes,
     } = this.state;
-    console.log("Rendering filter", typeOfFood);
+
     let homeDisplayed = homes;
 
     if (!this.isEmpty()) {
       homeDisplayed = [];
       for (let i = 0; i < homes.length; i++) {
-        console.log("Home constraint", i, homes[i]);
-        if (
-          typeOfFood.includes(homes[i].typeOfFood)
-          // homes[i].donationMin <= donationMin &&
-          // homes[i].numberOfGuests >= numberOfGuests
-        ) {
-          homeDisplayed.push(homes[i]);
+        let home = homes[i];
+        if (typeOfFood.includes(home.typeOfFood)) {
+          let hasEvents = false;
+          for (let j = 0; j < home.events.length; j++) {
+            if (
+              home.events[j].donationMin <= donationMin &&
+              numberOfGuests <= home.events[j].numberOfGuests
+            ) {
+              hasEvents = true;
+            }
+          }
+          if (hasEvents) {
+            homeDisplayed.push(home);
+          }
         }
       }
     }
@@ -73,7 +79,12 @@ class App extends React.Component {
     return (
       <div>
         <FilterBar changeFilter={this.changeFilter} />
-        <HomeList homeDisplayed={homeDisplayed} getHomes={this.getHomes} />
+        <HomeList
+          homeDisplayed={homeDisplayed}
+          donationMin={donationMin}
+          numberOfGuests={numberOfGuests}
+          getHomes={this.getHomes}
+        />
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import React from "react";
+import dayjs from "dayjs";
 
 class HomeEvent extends React.Component {
   constructor(props) {
@@ -28,7 +29,14 @@ class HomeEvent extends React.Component {
   render() {
     return (
       <div>
+        <div>
+          {dayjs(this.props.event.startDate).format("MMMM D, YYYY h A")} -{" "}
+          {dayjs(this.props.event.endDate).format("h A")}
+        </div>
+        <div>Minimum donation: ${this.props.event.donationMin}</div>
         <input
+          type="number"
+          placeholder="Number of Guests"
           onChange={(e) => {
             this.setState({
               guestCount: e.target.value,
