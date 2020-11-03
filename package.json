@@ -10,9 +10,9 @@
     "build-dev": "webpack -d --mode development --watch src/",
     "build": "webpack -p --mode production",
     "test": "jest",
-    "start-dev": "nodemon server/server.js --watch",
+    "start-dev": "nodemon server/index.js --watch",
     "start": "node server/server.js",
-    "seed": "node database/seed.js"
+    "seed": "node server/database/seed.js"
   },
   "repository": {
     "type": "git",
