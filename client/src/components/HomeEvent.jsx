@@ -1,21 +1,21 @@
-import React from 'react';
+import React from "react";
 
 class HomeEvent extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      guestCount: 0
-    }
+      guestCount: 0,
+    };
   }
 
-  bookListing (guests) => {
+  bookListing(guests) {
     $.ajax({
       url: `/api/book`,
       type: "POST",
       data: JSON.stringify({
         eventId: this.props.event._id,
-        guests: guests
+        guests: guests,
       }),
       contentType: "application/json",
       dataType: "json",
@@ -28,17 +28,23 @@ class HomeEvent extends React.Component {
   render() {
     return (
       <div>
-        <input onChange={(e) => {
-          this.setState({
-            guestCount: e.target.value
-          })
-        }} />
-        <button onClick={() => {
-          this.bookListing(this.state.guestCount)
-        }}>Book</button>
+        <input
+          onChange={(e) => {
+            this.setState({
+              guestCount: e.target.value,
+            });
+          }}
+        />
+        <button
+          onClick={() => {
+            this.bookListing(this.state.guestCount);
+          }}
+        >
+          Book
+        </button>
       </div>
-    )
+    );
   }
 }
 
-export default HomeListEntry;
+export default HomeEvent;

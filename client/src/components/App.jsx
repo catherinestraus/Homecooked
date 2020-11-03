@@ -1,6 +1,8 @@
 import React from "react";
 import $ from "jquery";
 import styled from "styled-components";
+import HomeList from "./HomeList";
+import FilterBar from "./FilterBar";
 import { createGlobalStyle } from "styled-components";
 
 class App extends React.Component {
@@ -13,15 +15,13 @@ class App extends React.Component {
     };
 
     this.getHomes = this.getHomes.bind(this);
+    this.changeFilter = this.changeFilter.bind(this);
   }
 
   componentDidMount() {
     this.getHomes();
   }
 
-  // type of food is an array of strings
-  // min donation, needs to be <= than
-  // number of guests, needs to be >=
   getHomes() {
     $.ajax({
       url: `/api/homes`,
@@ -32,6 +32,13 @@ class App extends React.Component {
           homes: responseData,
         });
       },
+    });
+  }
+
+  changeFilter(filters) {
+    console.log("filters", filters);
+    this.setState({
+      filter: filters,
     });
   }
 
@@ -46,15 +53,17 @@ class App extends React.Component {
       filter: { typeOfFood, donationMin, numberOfGuests },
       homes,
     } = this.state;
+    console.log("Rendering filter", typeOfFood);
     let homeDisplayed = homes;
 
     if (!this.isEmpty()) {
       homeDisplayed = [];
       for (let i = 0; i < homes.length; i++) {
+        console.log("Home constraint", i, homes[i]);
         if (
-          typeOfFood.contains(homes[i].typeOfFood) &&
-          homes[i].donationMin <= donationMin &&
-          responseData[i].numberOfGuests >= numberOfGuests
+          typeOfFood.includes(homes[i].typeOfFood)
+          // homes[i].donationMin <= donationMin &&
+          // homes[i].numberOfGuests >= numberOfGuests
         ) {
           homeDisplayed.push(homes[i]);
         }
@@ -62,13 +71,10 @@ class App extends React.Component {
     }
 
     return (
-      <>
-        <AppContainer>
-          <GlobalStyle />
-
-          <HomeList homesDisplayed={homeDisplayed} getHomes={this.getHomes} />
-        </AppContainer>
-      </>
+      <div>
+        <FilterBar changeFilter={this.changeFilter} />
+        <HomeList homeDisplayed={homeDisplayed} getHomes={this.getHomes} />
+      </div>
     );
   }
 }
