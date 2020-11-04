@@ -3,6 +3,7 @@ import $ from "jquery";
 import HomeList from "./HomeList";
 import FilterBar from "./FilterBar";
 import styled from "styled-components";
+import MapView from "./MapView";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
@@ -34,6 +35,7 @@ class App extends React.Component {
 
     this.getHomes = this.getHomes.bind(this);
     this.changeFilter = this.changeFilter.bind(this);
+    this.onMarkerClick = this.onMarkerClick.bind(this);
   }
 
   componentDidMount() {
@@ -56,6 +58,20 @@ class App extends React.Component {
   changeFilter(filters) {
     this.setState({
       filter: filters,
+    });
+  }
+
+  onMarkerClick(homeId) {
+    const matchingHomes = this.state.homes.filter((h) => h._id === homeId);
+    if (matchingHomes.length === 0) {
+      return;
+    }
+
+    const clickedHome = matchingHomes[0];
+    clickedHome.active = !clickedHome.active;
+
+    this.setState({
+      homes: this.state.homes,
     });
   }
 
@@ -94,10 +110,18 @@ class App extends React.Component {
       }
     }
 
+    console.log("homes", this.state.homes);
+
     return (
       <AppContainer>
         <GlobalStyle />
         <FilterBar changeFilter={this.changeFilter} />
+
+        <MapView
+          filter={this.state.filter}
+          homes={homeDisplayed}
+          onMarkerClick={this.onMarkerClick}
+        />
 
         <HomeList
           homeDisplayed={homeDisplayed}

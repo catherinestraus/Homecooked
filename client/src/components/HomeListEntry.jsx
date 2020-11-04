@@ -42,8 +42,8 @@ const Content = styled.div`
 const Image = styled.img`
   display: flex;
   flex-direction: column;
-  width: 150px;
-  height: 150px;
+  width: 115px;
+  height: 115px;
   object-fit: cover;
 `;
 
@@ -83,6 +83,7 @@ const HomeListEntry = (props) => {
   return (
     <Container>
       <Title>{props.home.title}</Title>
+      <div>{props.home.active ? "Is Active" : "Is Not Active"}</div>
       <BottomContainer>
         <LeftContainer>
           <Bold>Type of food:</Bold>
