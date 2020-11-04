@@ -1,9 +1,27 @@
 import React from "react";
 import $ from "jquery";
-import styled from "styled-components";
 import HomeList from "./HomeList";
 import FilterBar from "./FilterBar";
+import styled from "styled-components";
 import { createGlobalStyle } from "styled-components";
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    font-family: system-ui;
+    color: rgb(34, 34, 34);
+  }
+  input {
+    font-family: system-ui;
+    color: rgb(34, 34, 34);
+  }
+`;
+
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: 10%;
+  margin-right: 10%;
+`;
 
 class App extends React.Component {
   constructor(props) {
@@ -77,15 +95,17 @@ class App extends React.Component {
     }
 
     return (
-      <div>
+      <AppContainer>
+        <GlobalStyle />
         <FilterBar changeFilter={this.changeFilter} />
+
         <HomeList
           homeDisplayed={homeDisplayed}
           donationMin={donationMin}
           numberOfGuests={numberOfGuests}
           getHomes={this.getHomes}
         />
-      </div>
+      </AppContainer>
     );
   }
 }

@@ -1,9 +1,17 @@
 import React from "react";
 import HomeListEntry from "./HomeListEntry.jsx";
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 20px 20px 20px 20px;
+`;
 
 const HomeList = (props) => {
   return (
-    <div className="home-list">
+    <Container>
       {props.homeDisplayed.map((home) => (
         <HomeListEntry
           key={home._id}
@@ -13,7 +21,7 @@ const HomeList = (props) => {
           getHomes={props.getHomes}
         />
       ))}
-    </div>
+    </Container>
   );
 };
 
