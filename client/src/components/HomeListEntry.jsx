@@ -2,6 +2,7 @@ import React from "react";
 import HomeEvent from "./HomeEvent.jsx";
 import dayjs from "dayjs";
 import styled from "styled-components";
+import Highlighter from "react-highlight-words";
 
 const Container = styled.div`
   display: flex;
@@ -82,8 +83,19 @@ const HomeListEntry = (props) => {
 
   return (
     <Container>
-      <Title>{props.home.title}</Title>
-      <div>{props.home.active ? "Is Active" : "Is Not Active"}</div>
+      <div>
+        {props.home.active ? (
+          <Title>
+            <Highlighter
+              searchWords={[props.home.title]}
+              autoEscape={true}
+              textToHighlight={props.home.title}
+            />
+          </Title>
+        ) : (
+          <Title>{props.home.title}</Title>
+        )}
+      </div>
       <BottomContainer>
         <LeftContainer>
           <Bold>Type of food:</Bold>
