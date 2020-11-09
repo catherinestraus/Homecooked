@@ -1,19 +1,12 @@
 const faker = require("faker");
 const dayjs = require("dayjs");
-const { Home, HomeEvent, Booking } = require("./models");
 
-console.log("Testing seed.js");
+const firebaseAdmin = require("firebase-admin");
+const serviceAccount = require("./service-account.json");
 
-Home.find({}).then((homes) => {
-  console.log("homes", homes);
-});
-
-HomeEvent.find({}).then((homeEvents) => {
-  console.log("Home events", homeEvents);
-});
-
-Booking.find({}).then((bookings) => {
-  console.log("Bookings", bookings);
+firebaseAdmin.initializeApp({
+  credential: firebaseAdmin.credential.cert(serviceAccount),
+  databaseURL: "https://homecooked-b9888.firebaseio.com",
 });
 
 const foods = [
@@ -54,6 +47,10 @@ const addresses = [
 
 const createData = function () {
   let addressCount = -1;
+
+  const finalData = {};
+  let homeId = 1;
+
   // Generate Homes and Home Events
   for (let i = 0; i < foods.length; i++) {
     const titles = [
@@ -66,58 +63,54 @@ const createData = function () {
     for (let j = 1; j < 3; j++) {
       addressCount++;
       const homeInfo = {
+        id: homeId,
         title: titles[Math.floor(Math.random() * 4)],
         typeOfFood: `${foods[i]}`,
         address: addresses[addressCount],
-        photos: [
-          `https://mvp-food.s3-us-west-1.amazonaws.com/${foods[i]}-${j}-1.jpg`,
-          `https://mvp-food.s3-us-west-1.amazonaws.com/${foods[i]}-${j}-2.jpg`,
-          `https://mvp-food.s3-us-west-1.amazonaws.com/${foods[i]}-${j}-3.jpg`,
-        ],
+        photos: {
+          1: `https://mvp-food.s3-us-west-1.amazonaws.com/${foods[i]}-${j}-1.jpg`,
+          2: `https://mvp-food.s3-us-west-1.amazonaws.com/${foods[i]}-${j}-2.jpg`,
+          3: `https://mvp-food.s3-us-west-1.amazonaws.com/${foods[i]}-${j}-3.jpg`,
+        },
       };
 
-      const home = new Home(homeInfo);
-      home.save((err, result) => {
-        if (err) {
-          throw err;
-        } else {
-          let eventTimes = [
-            [
-              dayjs().startOf("day").add(12, "hour"),
-              dayjs().startOf("day").add(14, "hour"),
-            ],
-            [
-              dayjs().startOf("day").add(14, "hour"),
-              dayjs().startOf("day").add(16, "hour"),
-            ],
-            [
-              dayjs().startOf("day").add(17, "hour"),
-              dayjs().startOf("day").add(18, "hour"),
-            ],
-          ];
-          for (let k = 0; k < eventTimes.length; k++) {
-            const [startTime, endTime] = eventTimes[k];
-            const eventInfo = {
-              homeId: result._id,
-              startDate: startTime.format(),
-              endDate: endTime.format(),
-              donationMin: Math.floor(Math.random() * 11) + 15,
-              numberOfGuests: Math.floor(Math.random() * 6) + 1,
-            };
+      finalData[homeId] = homeInfo;
 
-            const homeEvent = new HomeEvent(eventInfo);
-            homeEvent.save((err, result) => {
-              if (err) {
-                throw err;
-              } else {
-                console.log(result);
-              }
-            });
-          }
-        }
-      });
+      let eventTimes = [
+        [
+          dayjs().startOf("day").add(12, "hour"),
+          dayjs().startOf("day").add(14, "hour"),
+        ],
+        [
+          dayjs().startOf("day").add(14, "hour"),
+          dayjs().startOf("day").add(16, "hour"),
+        ],
+        [
+          dayjs().startOf("day").add(17, "hour"),
+          dayjs().startOf("day").add(18, "hour"),
+        ],
+      ];
+
+      homeInfo.events = {};
+
+      for (let k = 0; k < eventTimes.length; k++) {
+        const [startTime, endTime] = eventTimes[k];
+        const eventInfo = {
+          homeId: homeId,
+          startDate: startTime.format(),
+          endDate: endTime.format(),
+          donationMin: Math.floor(Math.random() * 11) + 15,
+          numberOfGuests: Math.floor(Math.random() * 6) + 1,
+        };
+
+        homeInfo.events[k + 1] = eventInfo;
+      }
+
+      homeId += 1;
     }
   }
+
+  firebaseAdmin.database().ref("homes").set(finalData);
 };
 
 createData();

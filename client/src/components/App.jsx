@@ -4,7 +4,7 @@ import HomeList from "./HomeList";
 import FilterBar from "./FilterBar";
 import styled from "styled-components";
 import MapView from "./MapView";
-import TestComponent from "./TestComponent";
+import firebase from "../firebase.js";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
@@ -44,16 +44,18 @@ class App extends React.Component {
   }
 
   getHomes() {
-    $.ajax({
-      url: `/api/homes`,
-      type: "GET",
-      dataType: "json",
-      success: (responseData) => {
+    firebase
+      .database()
+      .ref("homes")
+      .on("value", (snapshot) => {
+        const data = snapshot.val();
+
+        console.log("Data from Firebase: ", data);
+
         this.setState({
-          homes: responseData,
+          homes: Object.values(data),
         });
-      },
-    });
+      });
   }
 
   changeFilter(filters) {
@@ -96,10 +98,12 @@ class App extends React.Component {
         let home = homes[i];
         if (typeOfFood.includes(home.typeOfFood)) {
           let hasEvents = false;
-          for (let j = 0; j < home.events.length; j++) {
+
+          const homeEvents = Object.values(home.events);
+          for (let j = 0; j < homeEvents.length; j++) {
             if (
-              home.events[j].donationMin <= donationMin &&
-              numberOfGuests <= home.events[j].numberOfGuests
+              homeEvents[j].donationMin <= donationMin &&
+              numberOfGuests <= homeEvents[j].numberOfGuests
             ) {
               hasEvents = true;
             }
@@ -111,19 +115,18 @@ class App extends React.Component {
       }
     }
 
-    console.log("homes", this.state.homes);
-
     return (
       <AppContainer>
-        <TestComponent />
         <GlobalStyle />
         <FilterBar changeFilter={this.changeFilter} />
 
-        <MapView
-          filter={this.state.filter}
-          homes={homeDisplayed}
-          onMarkerClick={this.onMarkerClick}
-        />
+        {this.state.homes.length > 0 ? (
+          <MapView
+            filter={this.state.filter}
+            homes={homeDisplayed}
+            onMarkerClick={this.onMarkerClick}
+          />
+        ) : null}
 
         <HomeList
           homeDisplayed={homeDisplayed}

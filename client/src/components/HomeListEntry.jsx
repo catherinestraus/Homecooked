@@ -51,7 +51,7 @@ const Image = styled.img`
 const HomeListEntry = (props) => {
   let eventElements = [];
 
-  const sortedEvents = props.home.events;
+  const sortedEvents = Object.values(props.home.events);
   sortedEvents.sort((eventOne, eventTwo) => {
     const startOne = dayjs(eventOne.startDate);
     const startTwo = dayjs(eventTwo.startDate);
@@ -77,8 +77,9 @@ const HomeListEntry = (props) => {
   }
 
   let photos = [];
-  for (let i = 0; i < props.home.photos.length; i++) {
-    photos.push(<Image src={props.home.photos[i]} />);
+  const homePhotos = Object.values(props.home.photos);
+  for (let i = 0; i < homePhotos.length; i++) {
+    photos.push(<Image src={homePhotos[i]} />);
   }
 
   return (

@@ -3,3 +3,6 @@ data
 dist
 
 MapConfig.js
+service-account.json
+
+.DS_Store

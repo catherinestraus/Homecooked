@@ -41,7 +41,10 @@ class MapContainer extends React.Component {
   }
 
   async fetchPlaces() {
-    const { homes } = this.props;
+    let { homes } = this.props;
+    homes = Object.values(homes);
+
+    console.log("Fetch places: ", homes);
     const { google } = this.mapProps;
     const service = new google.maps.places.PlacesService(this.map);
 
