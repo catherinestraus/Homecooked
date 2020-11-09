@@ -3,6 +3,7 @@ import Select from "react-select";
 import styled from "styled-components";
 
 const Container = styled.div`
+  flex: 1;
   display: flex;
   justify-content: space-between;
   padding: 20px 20px 20px 20px;

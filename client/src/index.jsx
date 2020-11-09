@@ -2,6 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 // Components
-import App from "./components/App.jsx";
+import Authenticator from "./components/Authenticator.jsx";
 
-ReactDOM.render(<App />, document.getElementById("app"));
+ReactDOM.render(<Authenticator />, document.getElementById("app"));

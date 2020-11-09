@@ -69,10 +69,14 @@ const HomeListEntry = (props) => {
         sortedEvents[j].donationMin <= props.donationMin &&
         props.numberOfGuests <= sortedEvents[j].numberOfGuests
       ) {
-        eventElements.push(<HomeEvent event={sortedEvents[j]}></HomeEvent>);
+        eventElements.push(
+          <HomeEvent home={props.home} event={sortedEvents[j]}></HomeEvent>
+        );
       }
     } else {
-      eventElements.push(<HomeEvent event={sortedEvents[j]}></HomeEvent>);
+      eventElements.push(
+        <HomeEvent home={props.home} event={sortedEvents[j]}></HomeEvent>
+      );
     }
   }
 

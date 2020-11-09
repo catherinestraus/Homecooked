@@ -5,15 +5,21 @@ import FilterBar from "./FilterBar";
 import styled from "styled-components";
 import MapView from "./MapView";
 import firebase from "../firebase.js";
+import BookingsModal from "./BookingsModal";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
   body {
-    font-family: system-ui;
+    margin: 0;
+    font-family: Circular, -apple-system, system-ui, Roboto;
     color: rgb(34, 34, 34);
+    position: relative;
+  }
+  body.modal-open {
+    overflow: hidden;
   }
   input {
-    font-family: system-ui;
+    font-family: Circular, -apple-system, system-ui, Roboto;
     color: rgb(34, 34, 34);
   }
 `;
@@ -25,6 +31,16 @@ const AppContainer = styled.div`
   margin-right: 10%;
 `;
 
+const TopBar = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const MyBookingsButton = styled.div`
+  padding: 10px 20px;
+  cursor: pointer;
+`;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -32,6 +48,7 @@ class App extends React.Component {
     this.state = {
       filter: { typeOfFood: [], numberOfGuests: 0, donationMin: 0 },
       homes: [],
+      showBookingsModal: false,
     };
 
     this.getHomes = this.getHomes.bind(this);
@@ -40,6 +57,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    console.log("User uid: ", firebase.auth().currentUser.uid);
     this.getHomes();
   }
 
@@ -118,7 +136,29 @@ class App extends React.Component {
     return (
       <AppContainer>
         <GlobalStyle />
-        <FilterBar changeFilter={this.changeFilter} />
+
+        {this.state.showBookingsModal ? (
+          <BookingsModal
+            close={() => {
+              this.setState({
+                showBookingsModal: false,
+              });
+            }}
+          />
+        ) : null}
+
+        <TopBar>
+          <FilterBar changeFilter={this.changeFilter} />
+          <MyBookingsButton
+            onClick={() => {
+              this.setState({
+                showBookingsModal: true,
+              });
+            }}
+          >
+            My Bookings
+          </MyBookingsButton>
+        </TopBar>
 
         {this.state.homes.length > 0 ? (
           <MapView
@@ -134,6 +174,14 @@ class App extends React.Component {
           numberOfGuests={numberOfGuests}
           getHomes={this.getHomes}
         />
+
+        <div
+          onClick={() => {
+            firebase.auth().signOut();
+          }}
+        >
+          Log out
+        </div>
       </AppContainer>
     );
   }

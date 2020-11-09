@@ -96,7 +96,7 @@ const createData = function () {
       for (let k = 0; k < eventTimes.length; k++) {
         const [startTime, endTime] = eventTimes[k];
         const eventInfo = {
-          homeId: homeId,
+          id: k + 1,
           startDate: startTime.format(),
           endDate: endTime.format(),
           donationMin: Math.floor(Math.random() * 11) + 15,
