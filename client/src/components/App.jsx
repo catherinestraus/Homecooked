@@ -4,6 +4,7 @@ import HomeList from "./HomeList";
 import FilterBar from "./FilterBar";
 import styled from "styled-components";
 import MapView from "./MapView";
+import TestComponent from "./TestComponent";
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
@@ -114,6 +115,7 @@ class App extends React.Component {
 
     return (
       <AppContainer>
+        <TestComponent />
         <GlobalStyle />
         <FilterBar changeFilter={this.changeFilter} />
 
