@@ -1,9 +1,19 @@
 import React from "react";
 import dayjs from "dayjs";
 import firebase from "../firebase";
+import { Home, HomeEvent as HomeEventType } from "../types";
 
-class HomeEvent extends React.Component {
-  constructor(props) {
+interface HomeEventProps {
+  home: Home;
+  event: HomeEventType;
+}
+
+interface HomeEventState {
+  guestCount: number;
+}
+
+class HomeEvent extends React.Component<HomeEventProps, HomeEventState> {
+  constructor(props: HomeEventProps) {
     super(props);
 
     this.state = {
@@ -11,8 +21,15 @@ class HomeEvent extends React.Component {
     };
   }
 
-  bookListing(guests) {
+  bookListing(guests: number) {
     const { home, event } = this.props;
+    const myUser = firebase.auth().currentUser;
+
+    if (!myUser) {
+      return null;
+    }
+
+    const myUserId = myUser.uid;
 
     if (event.numberOfGuests >= guests) {
       firebase
@@ -20,7 +37,6 @@ class HomeEvent extends React.Component {
         .ref(`homes/${home.id}/events/${event.id}/numberOfGuests`)
         .set(event.numberOfGuests - guests);
 
-      const myUserId = firebase.auth().currentUser.uid;
       const newBookingKey = firebase
         .database()
         .ref(`users/${myUserId}/bookings/`)
@@ -30,6 +46,7 @@ class HomeEvent extends React.Component {
         .database()
         .ref(`users/${myUserId}/bookings/${newBookingKey}`)
         .set({
+          id: newBookingKey,
           homeId: home.id,
           eventId: event.id,
           numberOfGuests: guests,

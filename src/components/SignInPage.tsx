@@ -1,5 +1,5 @@
 import React from "react";
-import firebase from "../firebase.js";
+import firebase from "../firebase";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -16,10 +16,10 @@ const Button = styled.div`
   background-color: blue;
 `;
 
-class SignInPage extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+interface SignInPageProps {}
+interface SignInPageState {}
+
+class SignInPage extends React.Component<SignInPageProps, SignInPageState> {
   render() {
     return (
       <Container>
@@ -35,7 +35,11 @@ class SignInPage extends React.Component {
               .then(function (result) {
                 const user = result.user;
 
-                console.log("authentication", user.uid, token);
+                if (!user) {
+                  return;
+                }
+
+                console.log("authentication", user.uid);
               })
               .catch(function (error) {
                 // Handle Errors here.

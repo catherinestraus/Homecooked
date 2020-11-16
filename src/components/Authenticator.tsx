@@ -1,10 +1,20 @@
 import React from "react";
-import firebase from "../firebase.js";
-import SignInPage from "./SignInPage.jsx";
-import App from "./App.jsx";
+import firebase from "../firebase";
+import SignInPage from "./SignInPage";
+import App from "./App";
 
-class Authenticator extends React.Component {
-  constructor(props) {
+interface AuthenticatorProps {}
+
+interface AuthenticatorState {
+  isAuthenticated: boolean;
+  loading: boolean;
+}
+
+class Authenticator extends React.Component<
+  AuthenticatorProps,
+  AuthenticatorState
+> {
+  constructor(props: AuthenticatorProps) {
     super(props);
     this.state = {
       isAuthenticated: false,

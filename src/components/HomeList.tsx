@@ -1,6 +1,7 @@
 import React from "react";
-import HomeListEntry from "./HomeListEntry.jsx";
+import HomeListEntry from "./HomeListEntry";
 import styled from "styled-components";
+import { Home } from "../types";
 
 const Container = styled.div`
   display: flex;
@@ -9,12 +10,19 @@ const Container = styled.div`
   padding: 20px 20px 20px 20px;
 `;
 
-const HomeList = (props) => {
+interface HomeListProps {
+  homeDisplayed: Home[];
+  donationMin: number;
+  numberOfGuests: number;
+  getHomes: () => void;
+}
+
+const HomeList = (props: HomeListProps) => {
   return (
     <Container>
       {props.homeDisplayed.map((home) => (
         <HomeListEntry
-          key={home._id}
+          key={home.id}
           home={home}
           donationMin={props.donationMin}
           numberOfGuests={props.numberOfGuests}

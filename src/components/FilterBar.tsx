@@ -1,6 +1,8 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import Select from "react-select";
+import { Props } from "react-select/src/styles";
 import styled from "styled-components";
+import type { Filters } from "../types";
 
 const Container = styled.div`
   flex: 1;
@@ -30,8 +32,12 @@ const foods = [
   "Thai",
 ];
 
-class FilterBar extends React.Component {
-  constructor(props) {
+interface FilterBarProps {
+  changeFilter: (filter: Filters) => void;
+}
+
+class FilterBar extends React.Component<FilterBarProps, Filters> {
+  constructor(props: FilterBarProps) {
     super(props);
 
     this.state = {
@@ -49,15 +55,15 @@ class FilterBar extends React.Component {
     });
 
     const customStyles = {
-      option: (provided, state) => ({
+      option: (provided: CSSProperties, state: Props) => ({
         ...provided,
         padding: 5,
       }),
-      control: (provided) => ({
+      control: (provided: CSSProperties) => ({
         ...provided,
         width: 450,
       }),
-      singleValue: (provided, state) => {
+      singleValue: (provided: CSSProperties, state: Props) => {
         const opacity = state.isDisabled ? 0.5 : 1;
         const transition = "opacity 300ms";
 
@@ -69,13 +75,17 @@ class FilterBar extends React.Component {
         <Select
           styles={customStyles}
           isMulti={true}
-          defaultValue={foods[0]}
+          defaultValue={{
+            value: foods[0],
+            label: foods[0],
+          }}
           isSearchable={true}
           options={foodOptions}
           onChange={(selectedOptions) => {
             this.setState({
               typeOfFood: selectedOptions
-                ? selectedOptions.map((o) => o.value)
+                ? // @ts-ignore
+                  selectedOptions.map((o) => o.value)
                 : [],
             });
           }}

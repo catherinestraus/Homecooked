@@ -1,8 +1,10 @@
 import React from "react";
-import HomeEvent from "./HomeEvent.jsx";
+import HomeEvent from "./HomeEvent";
 import dayjs from "dayjs";
 import styled from "styled-components";
 import Highlighter from "react-highlight-words";
+import { Home } from "../types";
+import Photos from "./Photos";
 
 const Container = styled.div`
   display: flex;
@@ -48,7 +50,14 @@ const Image = styled.img`
   object-fit: cover;
 `;
 
-const HomeListEntry = (props) => {
+interface HomeListEntryProps {
+  home: Home;
+  donationMin: number;
+  numberOfGuests: number;
+  getHomes: () => void;
+}
+
+const HomeListEntry = (props: HomeListEntryProps) => {
   let eventElements = [];
 
   const sortedEvents = Object.values(props.home.events);
@@ -64,6 +73,9 @@ const HomeListEntry = (props) => {
   });
 
   for (let j = 0; j < sortedEvents.length; j++) {
+    if (sortedEvents[j].numberOfGuests === 0) {
+      continue;
+    }
     if (props.donationMin && props.numberOfGuests) {
       if (
         sortedEvents[j].donationMin <= props.donationMin &&
@@ -112,7 +124,7 @@ const HomeListEntry = (props) => {
         </LeftContainer>
 
         <RightContainer>
-          <div>{photos}</div>
+          <Photos photoLinks={props.home.photos} />
         </RightContainer>
       </BottomContainer>
     </Container>

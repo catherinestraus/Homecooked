@@ -1,10 +1,23 @@
 import React from "react";
 import { getUid } from "../utils";
 import firebase from "firebase";
-import Modal from "./Modal.jsx";
+import Modal from "./Modal";
+import { Booking } from "../types";
+import BookingModalItem from "./BookingModalItem";
 
-class BookingsModal extends React.Component {
-  constructor(props) {
+interface BookingsModalState {
+  bookings: Booking[];
+}
+
+interface BookingsModalProps {
+  close: () => void;
+}
+
+class BookingsModal extends React.Component<
+  BookingsModalProps,
+  BookingsModalState
+> {
+  constructor(props: BookingsModalProps) {
     super(props);
 
     this.state = {
@@ -19,7 +32,7 @@ class BookingsModal extends React.Component {
       .ref(`users/${myUserId}/bookings`)
       .on("value", (snapshot) => {
         this.setState({
-          bookings: Object.values(snapshot.val()),
+          bookings: Object.values(snapshot.val() ?? {}),
         });
       });
   }
@@ -28,7 +41,7 @@ class BookingsModal extends React.Component {
     return (
       <Modal {...this.props}>
         {this.state.bookings.map((booking) => {
-          return <div>{JSON.stringify(booking)}</div>;
+          return <BookingModalItem {...booking} />;
         })}
       </Modal>
     );

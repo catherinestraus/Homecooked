@@ -52,6 +52,7 @@ const Container = styled.div`
   box-shadow: rgba(0, 0, 0, 0.28) 0px 8px 28px;
   width: 1140px;
   height: calc(100% - 80px);
+  overflow-y: scroll;
   @media (max-width: 1220px) {
     width: calc(100% - 80px);
   }
@@ -108,7 +109,6 @@ const Content = styled.div`
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  overflow-y: hidden;
   padding: 0px 0px 0px 30px;
 
   @media (max-width: 1220px) {
@@ -147,8 +147,14 @@ const RightContainer = styled(LeftContainer)`
   }
 `;
 
-class Modal extends React.Component {
-  constructor(props) {
+interface ModalProps {
+  close: () => void;
+}
+
+interface ModalState {}
+
+class Modal extends React.Component<ModalProps, ModalState> {
+  constructor(props: ModalProps) {
     super(props);
 
     this.state = {

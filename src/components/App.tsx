@@ -1,12 +1,11 @@
 import React from "react";
-import $ from "jquery";
-import HomeList from "./HomeList";
-import FilterBar from "./FilterBar";
-import styled from "styled-components";
-import MapView from "./MapView";
-import firebase from "../firebase.js";
+import styled, { createGlobalStyle } from "styled-components";
+import firebase from "../firebase";
+import { Filters, Home } from "../types";
 import BookingsModal from "./BookingsModal";
-import { createGlobalStyle } from "styled-components";
+import FilterBar from "./FilterBar";
+import HomeList from "./HomeList";
+import MapView from "./MapView";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -41,8 +40,16 @@ const MyBookingsButton = styled.div`
   cursor: pointer;
 `;
 
-class App extends React.Component {
-  constructor(props) {
+interface AppProps {}
+
+interface AppState {
+  filter: Filters;
+  homes: Home[];
+  showBookingsModal: boolean;
+}
+
+class App extends React.Component<AppProps, AppState> {
+  constructor(props: AppProps) {
     super(props);
 
     this.state = {
@@ -57,7 +64,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log("User uid: ", firebase.auth().currentUser.uid);
+    const user = firebase.auth().currentUser;
+    if (user) {
+      console.log("User uid: ", user.uid);
+    }
+
     this.getHomes();
   }
 
@@ -76,23 +87,21 @@ class App extends React.Component {
       });
   }
 
-  changeFilter(filters) {
+  changeFilter(filters: Filters) {
     this.setState({
       filter: filters,
     });
   }
 
-  onMarkerClick(homeId) {
-    const matchingHomes = this.state.homes.filter((h) => h._id === homeId);
-    if (matchingHomes.length === 0) {
-      return;
-    }
-
-    const clickedHome = matchingHomes[0];
-    clickedHome.active = !clickedHome.active;
+  onMarkerClick(homeId: number) {
+    const newHomes = this.state.homes.map((h) => {
+      return Object.assign({}, h, {
+        active: h.id === homeId,
+      });
+    });
 
     this.setState({
-      homes: this.state.homes,
+      homes: newHomes,
     });
   }
 
@@ -107,6 +116,8 @@ class App extends React.Component {
       filter: { typeOfFood, donationMin, numberOfGuests },
       homes,
     } = this.state;
+
+    console.log("Type of food: ", typeOfFood);
 
     let homeDisplayed = homes;
 
@@ -132,6 +143,18 @@ class App extends React.Component {
         }
       }
     }
+
+    homeDisplayed.sort((homeOne: Home, homeTwo: Home) => {
+      if (homeOne.active && !homeTwo.active) {
+        return -1;
+      }
+
+      if (homeTwo.active && !homeOne.active) {
+        return 1;
+      }
+
+      return 0;
+    });
 
     return (
       <AppContainer>
