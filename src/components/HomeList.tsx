@@ -7,7 +7,7 @@ const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  padding: 20px 20px 20px 20px;
+  padding: 20px 0px 20px 0px;
 `;
 
 interface HomeListProps {

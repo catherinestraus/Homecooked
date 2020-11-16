@@ -2,6 +2,25 @@ import React from "react";
 import dayjs from "dayjs";
 import firebase from "../firebase";
 import { Home, HomeEvent as HomeEventType } from "../types";
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+  border: solid white;
+  border-width: 1px 1px;
+  border-radius: 10px;
+  margin: 0px 15px 10px 0px;
+`;
+
+const BookingContainer = styled.div`
+  display: flex;
+`;
+
+const Input = styled.input`
+  width: 40px;
+`;
 
 interface HomeEventProps {
   home: Home;
@@ -60,19 +79,24 @@ class HomeEvent extends React.Component<HomeEventProps, HomeEventState> {
 
   render() {
     return (
-      <div>
+      <Container>
         <div>
-          {dayjs(this.props.event.startDate).format("MMMM D, YYYY h A")} -{" "}
-          {dayjs(this.props.event.endDate).format("h A")}
+          Date: {dayjs(this.props.event.startDate).format("MMMM D, YYYY")}
+          <div>
+            Time: {dayjs(this.props.event.startDate).format("h A")} -{" "}
+            {dayjs(this.props.event.endDate).format("h A")}
+          </div>
         </div>
         <div>Minimum donation: ${this.props.event.donationMin}</div>
-        <div>Maximum number of guests: {this.props.event.numberOfGuests}</div>
+        <div>Maximum guests: {this.props.event.numberOfGuests}</div>
 
         {this.props.event.numberOfGuests > 0 ? (
-          <>
-            <input
+          <BookingContainer>
+            <Input
               value={this.state.guestCount}
               type="number"
+              min={0}
+              max={this.props.event.numberOfGuests}
               placeholder="Number of Guests"
               onChange={(e) => {
                 this.setState({
@@ -87,9 +111,9 @@ class HomeEvent extends React.Component<HomeEventProps, HomeEventState> {
             >
               Book
             </button>
-          </>
+          </BookingContainer>
         ) : null}
-      </div>
+      </Container>
     );
   }
 }

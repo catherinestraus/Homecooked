@@ -8,6 +8,11 @@ const Image = styled.img`
   width: 115px;
   height: 115px;
   object-fit: cover;
+  border-radius: 10px;
+  margin: 30px 10px 30px 10px;
+  border: solid white;
+  border-width: 1px 1px;
+  border-radius: 10px;
 `;
 
 interface PhotosProps {

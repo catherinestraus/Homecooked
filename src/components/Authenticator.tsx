@@ -1,7 +1,29 @@
 import React from "react";
+import { createGlobalStyle } from "styled-components";
 import firebase from "../firebase";
-import SignInPage from "./SignInPage";
 import App from "./App";
+import SignInPage from "./SignInPage";
+
+const GlobalStyle = createGlobalStyle`
+  body {
+    margin: 0;
+    font-family: 'Varela Round', sans-serif;
+    color: white;
+    position: relative;
+    background-color: #2b2d34;
+  }
+  body.modal-open {
+    overflow: hidden;
+  }
+  input {
+    font-family: 'Varela Round', sans-serif;
+    color: #2b2d34;
+  }
+  button {
+    font-family: 'Varela Round', sans-serif;
+    color: #2b2d34;
+  }
+`;
 
 interface AuthenticatorProps {}
 
@@ -54,11 +76,14 @@ class Authenticator extends React.Component<
     if (this.state.loading) {
       return <div>Loading</div>;
     }
-    if (this.state.isAuthenticated) {
-      return <App />;
-    }
 
-    return <SignInPage />;
+    return (
+      <div>
+        <GlobalStyle />
+
+        {this.state.isAuthenticated ? <App /> : <SignInPage />}
+      </div>
+    );
   }
 }
 

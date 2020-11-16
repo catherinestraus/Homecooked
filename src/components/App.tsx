@@ -1,27 +1,12 @@
 import React from "react";
-import styled, { createGlobalStyle } from "styled-components";
+import styled from "styled-components";
 import firebase from "../firebase";
 import { Filters, Home } from "../types";
 import BookingsModal from "./BookingsModal";
 import FilterBar from "./FilterBar";
 import HomeList from "./HomeList";
 import MapView from "./MapView";
-
-const GlobalStyle = createGlobalStyle`
-  body {
-    margin: 0;
-    font-family: Circular, -apple-system, system-ui, Roboto;
-    color: rgb(34, 34, 34);
-    position: relative;
-  }
-  body.modal-open {
-    overflow: hidden;
-  }
-  input {
-    font-family: Circular, -apple-system, system-ui, Roboto;
-    color: rgb(34, 34, 34);
-  }
-`;
+import berry from "../images/berry.png";
 
 const AppContainer = styled.div`
   display: flex;
@@ -36,8 +21,51 @@ const TopBar = styled.div`
 `;
 
 const MyBookingsButton = styled.div`
-  padding: 10px 20px;
+  padding: 6px;
   cursor: pointer;
+  position: absolute;
+  top: 80px;
+  left: 79%;
+  width: 170px;
+  background-color: #5fd084;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #2b2d34;
+  border-width: 0px;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+`;
+
+const LogOutButton = styled.button`
+  width: 125px;
+  background-color: #e2e0e5;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #2b2d34;
+  border-width: 0px;
+  outline: none;
+  cursor: pointer;
+  padding: 6px;
+  margin-bottom: 20px;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const Title = styled.div`
+  font-size: 45px;
+  font-weight: bold;
+  color: white;
+`;
+
+const Berry = styled.img`
+  height: 60px;
+  width: 60px;
 `;
 
 interface AppProps {}
@@ -151,8 +179,6 @@ class App extends React.Component<AppProps, AppState> {
 
     return (
       <AppContainer>
-        <GlobalStyle />
-
         {this.state.showBookingsModal ? (
           <BookingsModal
             close={() => {
@@ -163,18 +189,22 @@ class App extends React.Component<AppProps, AppState> {
           />
         ) : null}
 
+        <TitleContainer>
+          <Title>Homecooked</Title>
+          <Berry src={berry}></Berry>
+        </TitleContainer>
         <TopBar>
           <FilterBar changeFilter={this.changeFilter} />
-          <MyBookingsButton
-            onClick={() => {
-              this.setState({
-                showBookingsModal: true,
-              });
-            }}
-          >
-            My Bookings
-          </MyBookingsButton>
         </TopBar>
+        <MyBookingsButton
+          onClick={() => {
+            this.setState({
+              showBookingsModal: true,
+            });
+          }}
+        >
+          My Bookings
+        </MyBookingsButton>
 
         {this.state.homes.length > 0 ? (
           <MapView
@@ -191,13 +221,13 @@ class App extends React.Component<AppProps, AppState> {
           getHomes={this.getHomes}
         />
 
-        <div
+        <LogOutButton
           onClick={() => {
             firebase.auth().signOut();
           }}
         >
           Log out
-        </div>
+        </LogOutButton>
       </AppContainer>
     );
   }

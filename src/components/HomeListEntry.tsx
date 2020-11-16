@@ -11,6 +11,10 @@ const Container = styled.div`
   flex-direction: column;
   width: 30%;
   padding: 15px;
+  border: solid white;
+  border-width: 1px 1px;
+  border-radius: 10px;
+  margin: 0px 8px 8px 0px;
 `;
 
 const BottomContainer = styled.div`

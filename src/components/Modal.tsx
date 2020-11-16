@@ -91,6 +91,7 @@ const CloseContainer = styled.div`
 `;
 
 const Close = styled.div`
+  color: #2b2d34;
   cursor: pointer;
   @media (max-width: 730px) {
     display: none;
@@ -106,8 +107,7 @@ const ArrowClose = styled.div`
 
 const Content = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-wrap: wrap;
   box-sizing: border-box;
   padding: 0px 0px 0px 30px;
 

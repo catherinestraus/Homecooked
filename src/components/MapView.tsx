@@ -146,6 +146,9 @@ class MapView extends React.Component<MapViewProps, MapViewState> {
     return (
       <div>
         <Map
+          style={{
+            borderRadius: "10px",
+          }}
           google={this.props.google}
           zoom={14}
           // 25 Balboa address
@@ -173,7 +176,7 @@ class MapView extends React.Component<MapViewProps, MapViewState> {
                   this.props.onMarkerClick(place.homeId);
                 }}
                 icon={`${process.env.PUBLIC_URL}/images/${
-                  home && home.active ? "green" : "red"
+                  home && home.active ? "red" : "light-red"
                 }-marker-icon.png`}
                 position={{
                   lat: place.lat,

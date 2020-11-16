@@ -7,16 +7,31 @@ import type { Filters } from "../types";
 const Container = styled.div`
   flex: 1;
   display: flex;
-  justify-content: space-between;
-  padding: 20px 20px 20px 20px;
+  padding: 20px 0px 20px 0px;
 `;
 
 const SearchButton = styled.button`
-  width: 15%;
+  width: 125px;
+  background-color: #e2e0e5;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #2b2d34;
+  border-width: 0px;
+  outline: none;
+  cursor: pointer;
+`;
+
+const Selections = styled.div`
+  display: flex;
+  padding-right: 20px;
+  color: #2b2d34;
 `;
 
 const Input = styled.input`
   width: 20%;
+  border-width: 0px;
+  outline: none;
 `;
 
 const foods = [
@@ -58,10 +73,12 @@ class FilterBar extends React.Component<FilterBarProps, Filters> {
       option: (provided: CSSProperties, state: Props) => ({
         ...provided,
         padding: 5,
+        color: "#2b2d34",
       }),
       control: (provided: CSSProperties) => ({
         ...provided,
         width: 450,
+        boxShadow: "none",
       }),
       singleValue: (provided: CSSProperties, state: Props) => {
         const opacity = state.isDisabled ? 0.5 : 1;
@@ -72,44 +89,46 @@ class FilterBar extends React.Component<FilterBarProps, Filters> {
     };
     return (
       <Container>
-        <Select
-          styles={customStyles}
-          isMulti={true}
-          defaultValue={{
-            value: foods[0],
-            label: foods[0],
-          }}
-          isSearchable={true}
-          options={foodOptions}
-          onChange={(selectedOptions) => {
-            this.setState({
-              typeOfFood: selectedOptions
-                ? // @ts-ignore
-                  selectedOptions.map((o) => o.value)
-                : [],
-            });
-          }}
-        />
+        <Selections>
+          <Select
+            styles={customStyles}
+            isMulti={true}
+            defaultValue={{
+              value: foods[0],
+              label: foods[0],
+            }}
+            isSearchable={true}
+            options={foodOptions}
+            onChange={(selectedOptions) => {
+              this.setState({
+                typeOfFood: selectedOptions
+                  ? // @ts-ignore
+                    selectedOptions.map((o) => o.value)
+                  : [],
+              });
+            }}
+          />
 
-        <Input
-          type="number"
-          placeholder="Number of Guests"
-          onChange={(e) => {
-            this.setState({
-              numberOfGuests: Number(e.target.value),
-            });
-          }}
-        />
+          <Input
+            type="number"
+            placeholder="Number of Guests"
+            onChange={(e) => {
+              this.setState({
+                numberOfGuests: Number(e.target.value),
+              });
+            }}
+          />
 
-        <Input
-          type="number"
-          placeholder="Donation Minimum"
-          onChange={(e) => {
-            this.setState({
-              donationMin: Number(e.target.value),
-            });
-          }}
-        />
+          <Input
+            type="number"
+            placeholder="Donation Minimum"
+            onChange={(e) => {
+              this.setState({
+                donationMin: Number(e.target.value),
+              });
+            }}
+          />
+        </Selections>
 
         <SearchButton
           onClick={() => {

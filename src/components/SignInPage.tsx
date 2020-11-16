@@ -1,19 +1,48 @@
 import React from "react";
 import firebase from "../firebase";
 import styled from "styled-components";
+import berry from "../images/berry.png";
 
 const Container = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-centents: center;
+  justify-content: center;
   align-items: center;
+  width: 100vw;
+  height: 100vh;
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 50%;
+  height: 25%;
+`;
+
+const TitleContainer = styled.div`
+  display: flex;
+`;
+
+const Title = styled.div`
+  font-size: 45px;
+  font-weight: bold;
+  color: white;
+`;
+
+const Berry = styled.img`
+  height: 60px;
+  width: 60px;
 `;
 
 const Button = styled.div`
-  padding: 10px 20px;
-  background-color: blue;
+  padding: 20px 40px;
+  background-color: white;
+  border-radius: 15px;
+  font-size: 20px;
+  color: #2b2d34;
+  cursor: pointer;
 `;
 
 interface SignInPageProps {}
@@ -23,17 +52,21 @@ class SignInPage extends React.Component<SignInPageProps, SignInPageState> {
   render() {
     return (
       <Container>
-        <div>Sign in page</div>
+        <ContentContainer>
+          <TitleContainer>
+            <Title>Welcome to Homecooked!</Title>
+            <Berry src={berry}></Berry>
+          </TitleContainer>
+          <Button
+            onClick={() => {
+              const provider = new firebase.auth.GoogleAuthProvider();
 
-        <Button
-          onClick={() => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-
-            firebase.auth().signInWithPopup(provider);
-          }}
-        >
-          Sign in with Google
-        </Button>
+              firebase.auth().signInWithPopup(provider);
+            }}
+          >
+            Sign in with Google
+          </Button>
+        </ContentContainer>
       </Container>
     );
   }
