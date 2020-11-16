@@ -65,9 +65,6 @@ class App extends React.Component<AppProps, AppState> {
 
   componentDidMount() {
     const user = firebase.auth().currentUser;
-    if (user) {
-      console.log("User uid: ", user.uid);
-    }
 
     this.getHomes();
   }
@@ -78,8 +75,6 @@ class App extends React.Component<AppProps, AppState> {
       .ref("homes")
       .on("value", (snapshot) => {
         const data = snapshot.val();
-
-        console.log("Data from Firebase: ", data);
 
         this.setState({
           homes: Object.values(data),
@@ -116,8 +111,6 @@ class App extends React.Component<AppProps, AppState> {
       filter: { typeOfFood, donationMin, numberOfGuests },
       homes,
     } = this.state;
-
-    console.log("Type of food: ", typeOfFood);
 
     let homeDisplayed = homes;
 

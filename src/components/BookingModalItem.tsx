@@ -20,7 +20,7 @@ class BookingModalItem extends React.Component<
   BookingModalItemState
 > {
   render() {
-    const { home, event, id } = this.props;
+    const { home, event } = this.props;
     return (
       <div>
         <div>Type of food:</div>

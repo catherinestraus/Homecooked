@@ -29,28 +29,7 @@ class SignInPage extends React.Component<SignInPageProps, SignInPageState> {
           onClick={() => {
             const provider = new firebase.auth.GoogleAuthProvider();
 
-            firebase
-              .auth()
-              .signInWithPopup(provider)
-              .then(function (result) {
-                const user = result.user;
-
-                if (!user) {
-                  return;
-                }
-
-                console.log("authentication", user.uid);
-              })
-              .catch(function (error) {
-                // Handle Errors here.
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // The email of the user's account used.
-                const email = error.email;
-                // The firebase.auth.AuthCredential type that was used.
-                const credential = error.credential;
-                // ...
-              });
+            firebase.auth().signInWithPopup(provider);
           }}
         >
           Sign in with Google

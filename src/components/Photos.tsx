@@ -19,7 +19,7 @@ function Photos(props: PhotosProps) {
   const photos = [];
   const homePhotos = Object.values(photoLinks);
   for (let i = 0; i < homePhotos.length; i++) {
-    photos.push(<Image src={homePhotos[i]} />);
+    photos.push(<Image key={i} src={homePhotos[i]} />);
   }
 
   return <div>{photos}</div>;

@@ -1,4 +1,6 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
+import 'firebase/database'
+import 'firebase/auth'
 
 // "Password" to authenticate to Firebase
 const firebaseConfig = {

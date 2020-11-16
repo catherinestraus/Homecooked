@@ -82,20 +82,22 @@ const HomeListEntry = (props: HomeListEntryProps) => {
         props.numberOfGuests <= sortedEvents[j].numberOfGuests
       ) {
         eventElements.push(
-          <HomeEvent home={props.home} event={sortedEvents[j]}></HomeEvent>
+          <HomeEvent
+            key={j}
+            home={props.home}
+            event={sortedEvents[j]}
+          ></HomeEvent>
         );
       }
     } else {
       eventElements.push(
-        <HomeEvent home={props.home} event={sortedEvents[j]}></HomeEvent>
+        <HomeEvent
+          key={j}
+          home={props.home}
+          event={sortedEvents[j]}
+        ></HomeEvent>
       );
     }
-  }
-
-  let photos = [];
-  const homePhotos = Object.values(props.home.photos);
-  for (let i = 0; i < homePhotos.length; i++) {
-    photos.push(<Image src={homePhotos[i]} />);
   }
 
   return (
