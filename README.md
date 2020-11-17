@@ -1,11 +1,11 @@
 # Welcome to Homecooked
 
-![Authentication](https://mvp-food.s3-us-west-1.amazonaws.com/github-gifs/authentication.gif)
+<img src="https://mvp-food.s3-us-west-1.amazonaws.com/github-gifs/authentication.gif" width="500">
 
-![Selecting listings from map](https://mvp-food.s3-us-west-1.amazonaws.com/github-gifs/select-listings-from-map.gif)
+<img src="https://mvp-food.s3-us-west-1.amazonaws.com/github-gifs/select-listings-from-map.gif" width="500">
 
-![Filters](https://mvp-food.s3-us-west-1.amazonaws.com/github-gifs/filters-1.gif)
+<img src="https://mvp-food.s3-us-west-1.amazonaws.com/github-gifs/filters-1.gif" width="500">
 
-![Filters](https://mvp-food.s3-us-west-1.amazonaws.com/github-gifs/filters-2.gif)
+<img src="https://mvp-food.s3-us-west-1.amazonaws.com/github-gifs/filters-2.gif" width="500">
 
-![Cancel booking](https://mvp-food.s3-us-west-1.amazonaws.com/github-gifs/cancel-booking.gif)
+<img src="https://mvp-food.s3-us-west-1.amazonaws.com/github-gifs/cancel-booking.gif" width="500">
