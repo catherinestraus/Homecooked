@@ -9,10 +9,7 @@ import React from "react";
 import mapConfig from "../MapConfig";
 import firebase from "../firebase";
 import { Filters, Home, Place } from "../types";
-
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
+import { sleep } from "../utils";
 
 interface MapViewProps {
   filter: Filters;

@@ -1,9 +1,9 @@
-import React from "react";
-import { getUid } from "../utils";
 import firebase from "firebase";
-import Modal from "./Modal";
+import React from "react";
 import { Booking } from "../types";
+import { getUid } from "../utils";
 import BookingModalItem from "./BookingModalItem";
+import Modal from "./Modal";
 
 interface BookingsModalState {
   bookings: Booking[];

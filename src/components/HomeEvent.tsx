@@ -1,26 +1,8 @@
-import React from "react";
 import dayjs from "dayjs";
+import React from "react";
+import styled from "styled-components";
 import firebase from "../firebase";
 import { Home, HomeEvent as HomeEventType } from "../types";
-import styled from "styled-components";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 2px;
-  border: solid white;
-  border-width: 1px 1px;
-  border-radius: 10px;
-  margin: 0px 15px 10px 0px;
-`;
-
-const BookingContainer = styled.div`
-  display: flex;
-`;
-
-const Input = styled.input`
-  width: 40px;
-`;
 
 interface HomeEventProps {
   home: Home;
@@ -117,5 +99,23 @@ class HomeEvent extends React.Component<HomeEventProps, HomeEventState> {
     );
   }
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+  border: solid white;
+  border-width: 1px 1px;
+  border-radius: 10px;
+  margin: 0px 15px 10px 0px;
+`;
+
+const BookingContainer = styled.div`
+  display: flex;
+`;
+
+const Input = styled.input`
+  width: 40px;
+`;
 
 export default HomeEvent;

@@ -4,30 +4,6 @@ import styled from "styled-components";
 import firebase from "../firebase";
 import { Home, HomeEvent } from "../types";
 import { getUid } from "../utils";
-import Photos from "./Photos";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 28%;
-  padding: 15px;
-  border: solid #2b2d35;
-  border-width: 1px 1px;
-  border-radius: 10px;
-  margin: 0px 8px 8px 0px;
-  color: #2b2d35;
-`;
-
-const CancelButton = styled.div`
-  padding: 5px 10px;
-  width: 120px;
-  box-shadow: 0px 0px 3px rgba(136, 136, 136, 0.2);
-  background-color: #5fd084;
-  border-radius: 5px;
-  color: #2b2d35;
-  cursor: pointer;
-  margin-top: 10px;
-`;
 
 interface BookingModalItemState {}
 
@@ -159,5 +135,28 @@ class BookingModalItemWrapper extends React.Component<
     );
   }
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 28%;
+  padding: 15px;
+  border: solid #2b2d35;
+  border-width: 1px 1px;
+  border-radius: 10px;
+  margin: 0px 8px 8px 0px;
+  color: #2b2d35;
+`;
+
+const CancelButton = styled.div`
+  padding: 5px 10px;
+  width: 120px;
+  box-shadow: 0px 0px 3px rgba(136, 136, 136, 0.2);
+  background-color: #5fd084;
+  border-radius: 5px;
+  color: #2b2d35;
+  cursor: pointer;
+  margin-top: 10px;
+`;
 
 export default BookingModalItemWrapper;

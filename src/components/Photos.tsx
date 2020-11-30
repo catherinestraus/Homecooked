@@ -2,19 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { PhotoURLs } from "../types";
 
-const Image = styled.img`
-  display: flex;
-  flex-direction: column;
-  width: 115px;
-  height: 115px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin: 30px 10px 30px 10px;
-  border: solid white;
-  border-width: 1px 1px;
-  border-radius: 10px;
-`;
-
 interface PhotosProps {
   photoLinks: PhotoURLs;
 }
@@ -29,5 +16,18 @@ function Photos(props: PhotosProps) {
 
   return <div>{photos}</div>;
 }
+
+const Image = styled.img`
+  display: flex;
+  flex-direction: column;
+  width: 115px;
+  height: 115px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 30px 10px 30px 10px;
+  border: solid white;
+  border-width: 1px 1px;
+  border-radius: 10px;
+`;
 
 export default Photos;

@@ -1,7 +1,34 @@
 import React from "react";
-import firebase from "../firebase";
 import styled from "styled-components";
+import firebase from "../firebase";
 import berry from "../images/berry.png";
+
+interface SignInPageProps {}
+interface SignInPageState {}
+
+class SignInPage extends React.Component<SignInPageProps, SignInPageState> {
+  render() {
+    return (
+      <Container>
+        <ContentContainer>
+          <TitleContainer>
+            <Title>Welcome to Homecooked!</Title>
+            <Berry src={berry}></Berry>
+          </TitleContainer>
+          <Button
+            onClick={() => {
+              const provider = new firebase.auth.GoogleAuthProvider();
+
+              firebase.auth().signInWithPopup(provider);
+            }}
+          >
+            Sign in with Google
+          </Button>
+        </ContentContainer>
+      </Container>
+    );
+  }
+}
 
 const Container = styled.div`
   display: flex;
@@ -44,32 +71,5 @@ const Button = styled.div`
   color: #2b2d34;
   cursor: pointer;
 `;
-
-interface SignInPageProps {}
-interface SignInPageState {}
-
-class SignInPage extends React.Component<SignInPageProps, SignInPageState> {
-  render() {
-    return (
-      <Container>
-        <ContentContainer>
-          <TitleContainer>
-            <Title>Welcome to Homecooked!</Title>
-            <Berry src={berry}></Berry>
-          </TitleContainer>
-          <Button
-            onClick={() => {
-              const provider = new firebase.auth.GoogleAuthProvider();
-
-              firebase.auth().signInWithPopup(provider);
-            }}
-          >
-            Sign in with Google
-          </Button>
-        </ContentContainer>
-      </Container>
-    );
-  }
-}
 
 export default SignInPage;

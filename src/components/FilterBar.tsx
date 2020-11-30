@@ -2,50 +2,8 @@ import React, { CSSProperties } from "react";
 import Select from "react-select";
 import { Props } from "react-select/src/styles";
 import styled from "styled-components";
+import { FOOD_TYPES } from "../constants";
 import type { Filters } from "../types";
-
-const Container = styled.div`
-  flex: 1;
-  display: flex;
-  padding: 20px 0px 20px 0px;
-`;
-
-const SearchButton = styled.button`
-  width: 125px;
-  background-color: #e2e0e5;
-  border-radius: 10px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #2b2d34;
-  border-width: 0px;
-  outline: none;
-  cursor: pointer;
-`;
-
-const Selections = styled.div`
-  display: flex;
-  padding-right: 20px;
-  color: #2b2d34;
-`;
-
-const Input = styled.input`
-  width: 20%;
-  border-width: 0px;
-  outline: none;
-`;
-
-const foods = [
-  "Chinese",
-  "French",
-  "Indian",
-  "Italian",
-  "Japanese",
-  "Korean",
-  "Middle-Eastern",
-  "Mexican",
-  "Southern",
-  "Thai",
-];
 
 interface FilterBarProps {
   changeFilter: (filter: Filters) => void;
@@ -62,7 +20,7 @@ class FilterBar extends React.Component<FilterBarProps, Filters> {
     };
   }
   render() {
-    const foodOptions = foods.map((f) => {
+    const foodOptions = FOOD_TYPES.map((f) => {
       return {
         value: f,
         label: f,
@@ -94,8 +52,8 @@ class FilterBar extends React.Component<FilterBarProps, Filters> {
             styles={customStyles}
             isMulti={true}
             defaultValue={{
-              value: foods[0],
-              label: foods[0],
+              value: FOOD_TYPES[0],
+              label: FOOD_TYPES[0],
             }}
             isSearchable={true}
             options={foodOptions}
@@ -141,5 +99,35 @@ class FilterBar extends React.Component<FilterBarProps, Filters> {
     );
   }
 }
+
+const Container = styled.div`
+  flex: 1;
+  display: flex;
+  padding: 20px 0px 20px 0px;
+`;
+
+const SearchButton = styled.button`
+  width: 125px;
+  background-color: #e2e0e5;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  color: #2b2d34;
+  border-width: 0px;
+  outline: none;
+  cursor: pointer;
+`;
+
+const Selections = styled.div`
+  display: flex;
+  padding-right: 20px;
+  color: #2b2d34;
+`;
+
+const Input = styled.input`
+  width: 20%;
+  border-width: 0px;
+  outline: none;
+`;
 
 export default FilterBar;

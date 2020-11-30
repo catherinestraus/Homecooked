@@ -1,15 +1,7 @@
 import React from "react";
-import HomeListEntry from "./HomeListEntry";
 import styled from "styled-components";
 import { Home } from "../types";
-
-const Container = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  padding: 20px 0px 20px 0px;
-`;
-
+import HomeListEntry from "./HomeListEntry";
 interface HomeListProps {
   homeDisplayed: Home[];
   donationMin: number;
@@ -32,5 +24,12 @@ const HomeList = (props: HomeListProps) => {
     </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding: 20px 0px 20px 0px;
+`;
 
 export default HomeList;

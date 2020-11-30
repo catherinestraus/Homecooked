@@ -1,6 +1,59 @@
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
+interface ModalProps {
+  close: () => void;
+}
+
+interface ModalState {}
+
+class Modal extends React.Component<ModalProps, ModalState> {
+  constructor(props: ModalProps) {
+    super(props);
+
+    this.state = {
+      bookings: [],
+    };
+  }
+
+  componentDidMount() {
+    document.body.classList.add("modal-open");
+  }
+
+  componentWillUnmount() {
+    document.body.classList.remove("modal-open");
+  }
+
+  render() {
+    return (
+      <BlackBackground>
+        <Container>
+          <Header>
+            <CloseContainer>
+              <Close
+                onClick={() => {
+                  this.props.close();
+                }}
+              >
+                ✕
+              </Close>
+              <ArrowClose
+                onClick={() => {
+                  this.props.close();
+                }}
+              >
+                ＜
+              </ArrowClose>
+            </CloseContainer>
+          </Header>
+
+          <Content>{this.props.children}</Content>
+        </Container>
+      </BlackBackground>
+    );
+  }
+}
+
 const fadeIn = keyframes`
   0% {
     opacity: 0;
@@ -116,88 +169,5 @@ const Content = styled.div`
     overflow-y: scroll;
   }
 `;
-
-const LeftContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  width: 40%;
-
-  @media (max-width: 450px) {
-    width: 100%;
-    height: 30%;
-  }
-
-  @media (max-width: 1220px) {
-    width: 100%;
-  }
-`;
-
-const RightContainer = styled(LeftContainer)`
-  justify-content: end;
-  width: 60%;
-  padding: 0px 5% 0px 0px;
-
-  @media (max-width: 1220px) {
-    width: 95%;
-  }
-
-  @media (min-width: 1220px) {
-    overflow-y: scroll;
-  }
-`;
-
-interface ModalProps {
-  close: () => void;
-}
-
-interface ModalState {}
-
-class Modal extends React.Component<ModalProps, ModalState> {
-  constructor(props: ModalProps) {
-    super(props);
-
-    this.state = {
-      bookings: [],
-    };
-  }
-
-  componentDidMount() {
-    document.body.classList.add("modal-open");
-  }
-
-  componentWillUnmount() {
-    document.body.classList.remove("modal-open");
-  }
-
-  render() {
-    return (
-      <BlackBackground>
-        <Container>
-          <Header>
-            <CloseContainer>
-              <Close
-                onClick={() => {
-                  this.props.close();
-                }}
-              >
-                ✕
-              </Close>
-              <ArrowClose
-                onClick={() => {
-                  this.props.close();
-                }}
-              >
-                ＜
-              </ArrowClose>
-            </CloseContainer>
-          </Header>
-
-          <Content>{this.props.children}</Content>
-        </Container>
-      </BlackBackground>
-    );
-  }
-}
 
 export default Modal;
