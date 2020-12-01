@@ -72,8 +72,6 @@ class MapView extends React.Component<MapViewProps, MapViewState> {
           return;
         }
 
-        const newPlaces = [];
-
         const needsGeocoding = this.props.homes.filter((home) => {
           return !mappings[home.address];
         });
