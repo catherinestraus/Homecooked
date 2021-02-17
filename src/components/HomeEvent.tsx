@@ -22,7 +22,7 @@ class HomeEvent extends React.Component<HomeEventProps, HomeEventState> {
     };
   }
 
-  bookListing(guests: number) {
+  async bookListing(guests: number) {
     const { home, event } = this.props;
     const myUser = firebase.auth().currentUser;
 
@@ -33,10 +33,27 @@ class HomeEvent extends React.Component<HomeEventProps, HomeEventState> {
     const myUserId = myUser.uid;
 
     if (event.numberOfGuests >= guests) {
-      firebase
+      const { committed, snapshot } = await firebase
         .database()
         .ref(`homes/${home.id}/events/${event.id}/numberOfGuests`)
-        .set(event.numberOfGuests - guests);
+        .transaction((numberOfGuests) => {
+          if (!numberOfGuests) {
+            return null;
+          }
+
+          if (numberOfGuests >= guests) {
+            return numberOfGuests - guests;
+          }
+
+          return numberOfGuests;
+        });
+
+      if (!committed || snapshot.val() !== event.numberOfGuests - guests) {
+        console.error(
+          "Multiple people tried to book the same reservation and you couldn't get the booking"
+        );
+        return;
+      }
 
       const newBookingKey = firebase
         .database()

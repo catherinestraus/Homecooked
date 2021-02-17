@@ -92,8 +92,6 @@ class App extends React.Component<AppProps, AppState> {
   }
 
   componentDidMount() {
-    const user = firebase.auth().currentUser;
-
     this.getHomes();
   }
 
